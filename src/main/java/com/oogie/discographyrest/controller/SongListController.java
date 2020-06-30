@@ -56,7 +56,7 @@ public class SongListController {
             return new ErrorResponse();
         } catch (Exception e) {
             String s = formatErrorResponseMessage(e.getMessage(), SongListEntity.class);
-            return new ErrorResponse(0, s);
+            return new ErrorResponse(-1, s);
         }
     }
 

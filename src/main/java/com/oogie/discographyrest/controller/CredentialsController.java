@@ -54,11 +54,18 @@ public class CredentialsController {
             return new ErrorResponse();
         } catch (Exception e) {
             String s = formatErrorResponse(e.getMessage(), CredentialsEntity.class);
-            return new ErrorResponse(0, s);
+            return new ErrorResponse(-1, s);
         }
     }
 
-    private String formatErrorResponse(String s, Class c) {
-        return s;
+    private String formatErrorResponse(String origMessage, Class c) {
+        String searchStr = c.getName();
+        int startIndex = origMessage.indexOf(searchStr);
+        int endIndex = startIndex + searchStr.length();
+        String s1 = origMessage.substring(0, startIndex);
+        String s2 = origMessage.substring(endIndex + 1);
+        StringBuilder sb = new StringBuilder(s1);
+        sb.append(s2);
+        return sb.toString();
     }
 }
