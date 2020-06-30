@@ -2,6 +2,7 @@ package com.oogie.discographyrest.controller;
 
 import com.oogie.discographyrest.CredentialsRepository;
 import com.oogie.discographyrest.model.CredentialsEntity;
+import com.oogie.discographyrest.model.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,7 +48,17 @@ public class CredentialsController {
     }
 
     @DeleteMapping("/credentials/{id}")
-    void deleteCredentials(@PathVariable Integer id) {
-        repository.deleteById(id);
+    ErrorResponse deleteCredentials(@PathVariable Integer id) {
+        try {
+            repository.deleteById(id);
+            return new ErrorResponse();
+        } catch (Exception e) {
+            String s = formatErrorResponse(e.getMessage(), CredentialsEntity.class);
+            return new ErrorResponse(0, s);
+        }
+    }
+
+    private String formatErrorResponse(String s, Class c) {
+        return s;
     }
 }

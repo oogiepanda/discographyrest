@@ -1,8 +1,16 @@
 package com.oogie.discographyrest.model;
 
-public class Error {
+public class ErrorResponse {
     private int id;
     private String description;
+
+    public ErrorResponse() {
+    }
+
+    public ErrorResponse(int id, String description) {
+        this.id = id;
+        this.description = description;
+    }
 
     public int getId() {
         return id;

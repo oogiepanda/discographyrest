@@ -1,6 +1,7 @@
 package com.oogie.discographyrest.controller;
 
 import com.oogie.discographyrest.SongListRepository;
+import com.oogie.discographyrest.model.ErrorResponse;
 import com.oogie.discographyrest.model.SongListEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,12 +50,24 @@ public class SongListController {
     }
 
     @DeleteMapping("/songlist/{id}")
-    void deleteSonglist(@PathVariable Integer id) {
+    ErrorResponse deleteSonglist(@PathVariable Integer id) {
         try {
             repository.deleteById(id);
+            return new ErrorResponse();
         } catch (Exception e) {
-            e.printStackTrace();
-//            Error error =
+            String s = formatErrorResponseMessage(e.getMessage(), SongListEntity.class);
+            return new ErrorResponse(0, s);
         }
+    }
+
+    private String formatErrorResponseMessage(String origMessage, Class c) {
+        String searchStr = c.getName();
+        int startIndex = origMessage.indexOf(searchStr);
+        int endIndex = startIndex + searchStr.length();
+        String s1 = origMessage.substring(0, startIndex);
+        String s2 = origMessage.substring(endIndex + 1);
+        StringBuilder sb = new StringBuilder(s1);
+        sb.append(s2);
+        return sb.toString();
     }
 }
